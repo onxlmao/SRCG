@@ -23,7 +23,11 @@ from mdx import run_mdx
 from rvc import Config, load_hubert, get_vc, rvc_infer
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+mdxnet_models_dir = os.path.join(BASE_DIR, 'mdxnet_models')
+rvc_models_dir = os.path.join(BASE_DIR, 'rvc_models')
+output_dir = os.path.join(BASE_DIR, 'song_output')
 
 def get_youtube_video_id(url, ignore_playlist=True):
     """
