@@ -23,7 +23,7 @@
     {
         "name": "Yae Miko",
         "url": "https://huggingface.co/iroaK/RVC2_YaeMiko_GenshinImpact/resolve/main/Yae_MikoJP.zip",
-        "image": "",
+        "image": "https://enka.network/ui/UI_AvatarIcon_Yae.png",
         "description": "Yae Miko from Genshin Impact",
         "credit": "iroak"
     },
@@ -51,28 +51,28 @@
     {
         "name": "Tom Holland",
         "url": "https://huggingface.co/TJKAI/TomHolland/resolve/main/TomHolland.zip",
-        "image": "",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tom_Holland_by_Gage_Skidmore.jpg?width=300",
         "description": "Tom Holland (Spider-Man)",
         "credit": "tjkcreative"
     },
     {
         "name": "Kamisato Ayaka",
         "url": "https://huggingface.co/benitheworld/ayaka-cn/resolve/main/ayaka-cn.zip",
-        "image": "",
+        "image": "https://enka.network/ui/UI_AvatarIcon_Ayaka.png",
         "description": "Kamisato Ayaka from Genshin Impact - CN voice actor",
         "credit": "kannysoap"
     },
     {
         "name": "Amai Odayaka",
         "url": "https://huggingface.co/NoIdea4Username/NoIdeaRVCCollection/resolve/main/Amai-Odayaka.zip",
-        "image": "",
+        "image": "https://static.zerochan.net/Amai+Odayaka.600.3218731.jpg",
         "description": "Amai Odayaka from Yandere Simulator",
         "credit": "minecraftian47"
     },
     {
         "name": "Compa - Hyperdimension Neptunia",
         "url": "https://huggingface.co/zeerowiibu/WiibuRVCCollection/resolve/main/Compa%20(Choujigen%20Game%20Neptunia)%20(JPN)%20(RVC%20v2)%20(150%20Epochs).zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/n42735-ikyYCJ7A7vlq.png",
         "description": "Compa from Choujigen Game Neptune (Hyperdimension Neptunia)",
         "credit": "zeerowiibu"
     },
@@ -100,17 +100,16 @@
     {
         "name": "Kurt Cobain",
         "url": "https://huggingface.co/Florstie/Kurt_Cobain_byFlorst/resolve/main/Kurt_Florst.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b140031-js3uJBWvipG2.jpg",
         "description": "Singer Kurt Cobain",
         "credit": "florst"
     },
     {
         "name": "Ironmouse",
         "url": "https://huggingface.co/Tempo-Hawk/IronmouseV2/resolve/main/IronmouseV2.zip",
-        "image": "",
+        "image": "https://static.zerochan.net/Ironmouse.600.3702729.jpg",
         "description": "Ironmouse",
         "credit": "ladyimpa"
-    },
     },
     {
         "name": "Bratishkinoff",
@@ -136,10 +135,9 @@
     {
         "name": "Michiru Kagemori",
         "url": "https://huggingface.co/WolfMK/MichiruKagemori/resolve/main/MichiruKagemori_RVC_V2.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b153541-LpTWp0jtY5Ll.png",
         "description": "Michiru Kagemori from Brand New Animal (300 Epochs)",
         "credit": "wolfmk"
-    },
     },
     {
         "name": "Kaeya",
@@ -158,14 +156,14 @@
     {
         "name": "Sakurakoji Kinako",
         "url": "https://huggingface.co/Gorodogi/RVC2MangioCrepe/resolve/main/kinakobetatwo700.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b272551-yzrQJlesM82Q.png",
         "description": "Sakurakoji Kinako from Love Live! Superstar!! (700 Epoch)",
         "credit": "ck1089"
     },
     {
         "name": "Minamo Kurosawa",
         "url": "https://huggingface.co/timothy10583/RVC/resolve/main/minamo-kurosawa.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/n6191-bCGksXYjQN9F.jpg",
         "description": "Minamo Kurosawa (Azumanga Daioh US DUB) (300 Epochs)",
         "credit": "timothy10583"
     },
@@ -193,7 +191,7 @@
     {
         "name": "Asuka Langley Soryu",
         "url": "https://huggingface.co/Piegirl/asukaadv/resolve/main/asuka.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b94-d631a3Z2KPvd.png",
         "description": "Asuka Langley Soryu from Neon Genesis Evangelion (400 Epochs)",
         "credit": "piegirl"
     },
@@ -228,7 +226,7 @@
     {
         "name": "Hana Shirosaki",
         "url": "https://huggingface.co/Pawlik17/HanaWataten/resolve/main/HanaWATATEN.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b131476-HRfGimXhxPBW.png",
         "description": "Hana Shirosaki from Watashi ni Tenshi ga Maiorita! (570 Epochs)",
         "credit": "tamalik"
     },
@@ -242,7 +240,7 @@
     {
         "name": "Nai Shiro",
         "url": "https://huggingface.co/kuushiro/Shiro-RVC-No-Game-No-Life/resolve/main/shiro-jp-360-epochs.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b82525-sKk2FGRKN4aK.png",
         "description": "Nai Shiro (Ai Kayano) from No Game No Life (360 Epochs)",
         "credit": "kxouyou"
     },
@@ -256,7 +254,7 @@
     {
         "name": "Fuwawa Abyssgard",
         "url": "https://huggingface.co/megaaziib/my-rvc-models-collection/resolve/main/fuwawa.zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b333597-AOoENZGVzz21.png",
         "description": "Fuwawa Abyssgard (FUWAMOCO) from Hololive gen 3 (250 Epochs)",
         "credit": "megaaziib"
     },
@@ -270,14 +268,14 @@
     {
         "name": "Raiden Shogun",
         "url": "https://huggingface.co/Nasleyy/NasleyRVC/resolve/main/Voices/RaidenShogun/RaidenShogun.zip",
-        "image": "",
+        "image": "https://enka.network/ui/UI_AvatarIcon_Shougun.png",
         "description": "Raiden Shogun from Genshin Impact (310 Epochs)",
         "credit": "nasley"
     },
     {
         "name": "Alhaitham",
         "url": "https://huggingface.co/Nasleyy/NasleyRVC/resolve/main/Voices/Alhaitham/Alhaitham.zip",
-        "image": "",
+        "image": "https://enka.network/ui/UI_AvatarIcon_Alhatham.png",
         "description": "Alhaitham from Genshin Impact (320 Epochs)",
         "credit": "nasley"
     },
@@ -298,7 +296,7 @@
     {
         "name": "Veibae",
         "url": "https://huggingface.co/datasets/Papaquans/Veibae/resolve/main/veibae_e165_s125565.zip",
-        "image": "",
+        "image": "https://static.zerochan.net/Veibae.600.3519815.jpg",
         "description": "Veibae (165 Epochs)",
         "credit": "recairo"
     },
@@ -333,14 +331,14 @@
     {
         "name": "Laplus Darkness",
         "url": "https://pixeldrain.com/u/zmuxv5Bf",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b282756-64wAeoAppQGo.png",
         "description": "Laplus Darkness from Hololive JP",
         "credit": "dacoolkid44 & hijack"
     },
     {
         "name": "AZKi",
         "url": "https://huggingface.co/Kit-Lemonfoot/kitlemonfoot_rvc_models/resolve/main/AZKi%20(Hybrid).zip",
-        "image": "",
+        "image": "https://s4.anilist.co/file/anilistcdn/character/medium/b204877-RPNXZcxhERIY.png",
         "description": "AZKi from Hololive JP",
         "credit": "Kit Lemonfoot / NSHFB"
     },
@@ -375,14 +373,14 @@
     {
         "name": "Nilou",
         "url": "https://huggingface.co/benitheworld/nilou-kr/resolve/main/nilou-kr.zip",
-        "image": "",
+        "image": "https://enka.network/ui/UI_AvatarIcon_Nilou.png",
         "description": "Nilou from Genshin Impact KR (300 Epochs)",
         "credit": "kannysoap"
     },
     {
         "name": "Dr. Doofenshmirtz",
         "url": "https://huggingface.co/Argax/doofenshmirtz-RUS/resolve/main/doofenshmirtz.zip",
-        "image": "",
+        "image": "https://static.zerochan.net/Doofenshmirtz.600.2125466.jpg",
         "description": "Dr. Doofenshmirtz from Phineas and Ferb (300 epochs)",
         "credit": "argaxus"
     }
