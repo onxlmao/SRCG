@@ -164,6 +164,22 @@ def display_progress(message, percent, is_webui, progress=None):
         print(message)
 
 
+def _find_file_by_suffix(directory, suffix):
+    """Find a file ending with {suffix}.wav in directory."""
+    if not os.path.isdir(directory):
+        return None
+    for f in os.listdir(directory):
+        if f.endswith(f'{suffix}.wav'):
+            return os.path.join(directory, f)
+    return None
+
+
+def _build_output_path(output_dir, input_path, stem):
+    """Mirror run_mdx naming: {base}_{stem}.wav"""
+    base = os.path.splitext(os.path.basename(input_path))[0]
+    return os.path.join(output_dir, f'{base}_{stem}.wav')
+
+
 def preprocess_song(song_input, mdx_model_params, song_id, is_webui, input_type, progress=None):
     keep_orig = False
     if input_type == 'yt':
@@ -179,14 +195,31 @@ def preprocess_song(song_input, mdx_model_params, song_id, is_webui, input_type,
     song_output_dir = os.path.join(output_dir, song_id)
     orig_song_path = convert_to_stereo(orig_song_path)
 
-    display_progress('[~] Separating Vocals from Instrumental...', 0.1, is_webui, progress)
-    vocals_path, instrumentals_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'UVR-MDX-NET-Voc_FT.onnx'), orig_song_path, denoise=True, keep_orig=keep_orig)
+    # Step 1: Vocals / Instrumental separation
+    vocals_path = _build_output_path(song_output_dir, orig_song_path, 'Vocals')
+    instrumentals_path = _build_output_path(song_output_dir, orig_song_path, 'Instrumental')
+    if os.path.exists(vocals_path) and os.path.exists(instrumentals_path):
+        display_progress('[~] Vocals/Instrumental already separated, skipping...', 0.1, is_webui, progress)
+    else:
+        display_progress('[~] Separating Vocals from Instrumental...', 0.1, is_webui, progress)
+        vocals_path, instrumentals_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'UVR-MDX-NET-Voc_FT.onnx'), orig_song_path, denoise=True, keep_orig=keep_orig)
 
-    display_progress('[~] Separating Main Vocals from Backup Vocals...', 0.2, is_webui, progress)
-    backup_vocals_path, main_vocals_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'UVR_MDXNET_KARA_2.onnx'), vocals_path, suffix='Backup', invert_suffix='Main', denoise=True)
+    # Step 2: Main / Backup vocals separation
+    main_vocals_path = _build_output_path(song_output_dir, vocals_path, 'Main')
+    backup_vocals_path = _build_output_path(song_output_dir, vocals_path, 'Backup')
+    if os.path.exists(main_vocals_path) and os.path.exists(backup_vocals_path):
+        display_progress('[~] Main/Backup vocals already separated, skipping...', 0.2, is_webui, progress)
+    else:
+        display_progress('[~] Separating Main Vocals from Backup Vocals...', 0.2, is_webui, progress)
+        backup_vocals_path, main_vocals_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'UVR_MDXNET_KARA_2.onnx'), vocals_path, suffix='Backup', invert_suffix='Main', denoise=True)
 
-    display_progress('[~] Applying DeReverb to Vocals...', 0.3, is_webui, progress)
-    _, main_vocals_dereverb_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'Reverb_HQ_By_FoxJoy.onnx'), main_vocals_path, invert_suffix='DeReverb', exclude_main=True, denoise=True)
+    # Step 3: DeReverb (main_vocals_path already has _Main in base name)
+    main_vocals_dereverb_path = _build_output_path(song_output_dir, main_vocals_path, 'DeReverb')
+    if os.path.exists(main_vocals_dereverb_path):
+        display_progress('[~] DeReverb already applied, skipping...', 0.3, is_webui, progress)
+    else:
+        display_progress('[~] Applying DeReverb to Vocals...', 0.3, is_webui, progress)
+        _, main_vocals_dereverb_path = run_mdx(mdx_model_params, song_output_dir, os.path.join(mdxnet_models_dir, 'Reverb_HQ_By_FoxJoy.onnx'), main_vocals_path, invert_suffix='DeReverb', exclude_main=True, denoise=True)
 
     return orig_song_path, vocals_path, instrumentals_path, main_vocals_path, backup_vocals_path, main_vocals_dereverb_path
 
@@ -195,7 +228,7 @@ def voice_change(voice_model, vocals_path, output_path, pitch_change, f0_method,
     rvc_model_path, rvc_index_path = get_rvc_model(voice_model, is_webui)
     device = 'cuda:0'
     config = Config(device, True)
-    hubert_model = load_hubert(device, config.is_half, os.path.join(rvc_models_dir, 'hubert_base.pt'))
+    hubert_model = load_hubert(device, config.is_half, os.path.join(BASE_DIR, 'hubert_base.pt'))
     cpt, version, net_g, tgt_sr, vc = get_vc(device, config.is_half, config, rvc_model_path)
 
     # convert main vocals
@@ -277,8 +310,8 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
             vocals_path, main_vocals_path = None, None
             paths = get_audio_paths(song_dir)
 
-            # if any of the audio files aren't available or keep intermediate files, rerun preprocess
-            if any(path is None for path in paths) or keep_files:
+            # Only re-run if required audio files are missing
+            if any(path is None for path in paths):
                 orig_song_path, vocals_path, instrumentals_path, main_vocals_path, backup_vocals_path, main_vocals_dereverb_path = preprocess_song(song_input, mdx_model_params, song_id, is_webui, input_type, progress)
             else:
                 orig_song_path, instrumentals_path, main_vocals_dereverb_path, backup_vocals_path = paths
