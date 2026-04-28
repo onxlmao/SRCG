@@ -201,6 +201,17 @@ def get_model_image_path(model_name):
     return default_img if os.path.exists(default_img) else None
 
 
+def on_gallery_select(event: gr.SelectData):
+    """When a gallery image is clicked, update the dropdown + preview."""
+    idx = event.index
+    if idx is None or idx < 0 or idx >= len(json_voice_models):
+        return gr.update(), gr.update(), gr.update()
+    model_name = json_voice_models[idx]['name']
+    image_url = get_model_image_path(model_name)
+    info_text = on_json_model_select(model_name)
+    return gr.update(value=model_name), info_text[0], info_text[1]
+
+
 def on_json_model_select(model_name):
     """When a model is selected, update image + info."""
     model = dl.get_voice_model(model_name)
@@ -438,6 +449,11 @@ if __name__ == '__main__':
                 json_dl_output = gr.Text(label='Download Status', interactive=False)
 
                 # Events
+                model_gallery.select(
+                    on_gallery_select,
+                    outputs=[json_model_select, model_preview_image, model_preview_info]
+                )
+
                 json_model_select.change(
                     on_json_model_select,
                     inputs=[json_model_select],
