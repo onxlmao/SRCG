@@ -1,6 +1,6 @@
-# AICoverGen
+# SRCG (Simple RVC Gen)
 
-An autonomous pipeline to create covers with any RVC v2 trained AI voice from YouTube videos or a local audio file. For developers who may want to add a singing functionality into their AI assistant/chatbot/vtuber, or for people who want to hear their favourite characters sing their favourite song.
+A simple and powerful pipeline to create AI voice covers with any RVC v2 trained voice model. Supports YouTube videos, local audio files, direct RVC inference, organized UVR separation output, and a curated model gallery with 55+ voice models.
 
 Showcase: https://www.youtube.com/watch?v=2qZuE4WM7CM
 
@@ -13,12 +13,12 @@ WebUI is under constant development and testing, but you can try it out right no
 ## Table of Contents
 
 - [Changelog](#changelog)
-- [Update AICoverGen to latest version](#update-aicovergen-to-latest-version)
+- [Update SRCG to latest version](#update-srcg-to-latest-version)
 - [Colab notebook](#colab-notebook)
 - [Setup](#setup)
     - [Install Git and Python](#install-git-and-python)
     - [Install ffmpeg and sox](#install-ffmpeg)
-    - [Clone AICoverGen repository](#clone-aicovergen-repository)
+    - [Clone SRCG repository](#clone-srcg-repository)
     - [Download required models](#download-required-models)
 - [Usage with WebUI](#usage-with-webui)
     - [Download RVC models via JSON Gallery](#download-rvc-models-via-json-gallery)
@@ -69,9 +69,9 @@ WebUI is under constant development and testing, but you can try it out right no
 - Audio output format option: wav or mp3.
 
 
-## Update AICoverGen to latest version
+## Update SRCG to latest version
 
-Install and pull any new requirements and changes by opening a command line window in the `AICoverGen` directory and running the following commands.
+Install and pull any new requirements and changes by opening a command line window in the `SRCG` directory and running the following commands.
 
 ```
 pip install -r requirements.txt
@@ -83,9 +83,9 @@ Then follow the instructions in the notebook to run the webui.
 
 ## Colab notebook
 
-For those without a powerful enough NVIDIA GPU, you may try AICoverGen out using Google Colab.
+For those without a powerful enough NVIDIA GPU, you may try SRCG out using Google Colab.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/onxlmao/AICoverGen/blob/main/AICoverGen_colab.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/onxlmao/SRCG/blob/main/AICoverGen_colab.ipynb)
 
 For those who face issues with Google Colab notebook disconnecting after a few minutes, here's an alternative that doesn't use the WebUI.
 
@@ -107,13 +107,13 @@ Follow the instructions [here](https://www.hostinger.com/tutorials/how-to-instal
 
 Follow the instructions [here](https://www.tutorialexample.com/a-step-guide-to-install-sox-sound-exchange-on-windows-10-python-tutorial/) to install sox and add it to your Windows path environment.
 
-### Clone AICoverGen repository
+### Clone SRCG repository
 
-Open a command line window and run these commands to clone this entire repository and install the additional dependencies required.
+Open a command line window and run these commands to clone this repository and install the dependencies.
 
 ```
-git clone https://github.com/onxlmao/AICoverGen
-cd AICoverGen
+git clone https://github.com/onxlmao/SRCG
+cd SRCG
 pip install -r requirements.txt
 ```
 
@@ -139,7 +139,7 @@ python src/download_models.py --check
 
 ## Usage with WebUI
 
-To run the AICoverGen WebUI, run the following command.
+To run the SRCG WebUI, run the following command.
 
 ```
 python src/webui.py
@@ -258,7 +258,7 @@ python src/main.py [-h] -i SONG_INPUT -dir RVC_DIRNAME -p PITCH_CHANGE [-k | --k
 
 ## Model Management System
 
-AICoverGen uses a JSON-based model management system for easy downloading and organization of voice models and required base models.
+SRCG uses a JSON-based model management system for easy downloading and organization of voice models and required base models.
 
 ### models_manifest.json
 
@@ -319,7 +319,7 @@ The model will automatically appear in the gallery on the next WebUI launch. Ima
 ## Directory Structure
 
 ```
-AICoverGen/
+SRCG/
 ├── models_manifest.json          # Required models (hubert, rmvpe, MDX-Net)
 ├── hubert_base.pt                # Downloaded by models_manifest.json
 ├── rmvpe.pt                      # Downloaded by models_manifest.json

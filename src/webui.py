@@ -326,9 +326,9 @@ if __name__ == '__main__':
         gallery_value.append((image_src, f"{status} {m['name']}"))
         gallery_models.append(m)
 
-    with gr.Blocks(title='AICoverGenWebUI') as app:
+    with gr.Blocks(title='SRCG - Simple RVC Gen') as app:
 
-        gr.Label('AICoverGen WebUI created with ❤️', show_label=False)
+        gr.Label('SRCG - Simple RVC Gen', show_label=False)
 
         # main tab
         with gr.Tab("Generate"):
