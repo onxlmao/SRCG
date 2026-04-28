@@ -18,6 +18,11 @@ mdxnet_models_dir = os.path.join(BASE_DIR, 'mdxnet_models')
 rvc_models_dir = os.path.join(BASE_DIR, 'rvc_models')
 output_dir = os.path.join(BASE_DIR, 'song_output')
 
+# Custom opener with User-Agent to avoid 403 Forbidden on image downloads
+_opener = urllib.request.build_opener()
+_opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')]
+urllib.request.install_opener(_opener)
+
 
 def get_current_models(models_dir):
     models_list = os.listdir(models_dir)
@@ -38,7 +43,7 @@ def load_public_models():
             models_table.append(model)
 
     tags = list(public_models['tags'].keys())
-    return gr.update(value=models_table), gr.CheckboxGroup.update(choices=tags)
+    return gr.update(value=models_table), gr.update(choices=tags)
 
 
 def extract_zip(extraction_folder, zip_name):
@@ -139,7 +144,9 @@ def filter_models(tags, query):
 
 
 def pub_dl_autofill(pub_models, event: gr.SelectData):
-    return gr.update(value=pub_models.loc[event.index[0], 'URL']), gr.Text.update(value=pub_models.loc[event.index[0], 'Model Name'])
+    if event.index is None:
+        return gr.update(), gr.update()
+    return gr.update(value=pub_models.loc[event.index[0], 'URL']), gr.update(value=pub_models.loc[event.index[0], 'Model Name'])
 
 
 def swap_visibility():
@@ -159,6 +166,18 @@ def show_hop_slider(pitch_detection_algo):
 
 # ── JSON Index tab helpers ────────────────────────────────────────────
 
+def _download_image(url, dest):
+    """Download an image with proper User-Agent header."""
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            with open(dest, 'wb') as f:
+                f.write(resp.read())
+        return True
+    except Exception:
+        return False
+
+
 def get_model_image_path(model_name):
     """Return the local image path for a model (downloads if needed)."""
     default_img = os.path.join(BASE_DIR, 'images', 'default_model.png')
@@ -174,8 +193,8 @@ def get_model_image_path(model_name):
     if model and model.get('image', '').startswith('http'):
         try:
             os.makedirs(local_images_dir, exist_ok=True)
-            urllib.request.urlretrieve(model['image'], local_path)
-            return local_path
+            if _download_image(model['image'], local_path):
+                return local_path
         except Exception:
             pass
 
@@ -210,6 +229,8 @@ def download_json_voice_model(model_name, progress=gr.Progress()):
         result = dl.download_voice_model(model_name, progress_callback=lambda m: progress(0.5, desc=m))
         # Refresh info after download
         model = dl.get_voice_model(model_name)
+        if not model:
+            return result, gr.update(), gr.update()
         image_url = get_model_image_path(model_name)
         info_text = (
             f"**{model['name']}**\n\n"
@@ -274,13 +295,12 @@ if __name__ == '__main__':
             # Download remote images locally to avoid hotlink protection issues
             local_path = os.path.join(local_images_dir, f"{m['name']}.jpg")
             if not os.path.exists(local_path):
-                try:
-                    urllib.request.urlretrieve(img, local_path)
-                except Exception:
-                    if os.path.exists(default_img):
-                        local_path = default_img
-                    else:
-                        continue  # skip if no image available
+                if _download_image(img, local_path):
+                    pass  # downloaded OK
+                elif os.path.exists(default_img):
+                    local_path = default_img
+                else:
+                    continue  # skip if no image available
             image_src = local_path
         elif os.path.exists(default_img):
             image_src = default_img

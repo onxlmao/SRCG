@@ -51,7 +51,7 @@
     {
         "name": "Tom Holland",
         "url": "https://huggingface.co/TJKAI/TomHolland/resolve/main/TomHolland.zip",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Tom_Holland_by_Gage_Skidmore.jpg?width=300",
+        "image": "",
         "description": "Tom Holland (Spider-Man)",
         "credit": "tjkcreative"
     },
@@ -177,7 +177,7 @@
     {
         "name": "Makima",
         "url": "https://huggingface.co/andolei/makimaen/resolve/main/makima-en-dub.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b137080-UHcynYNjb5ZU.jpg",
+        "image": "",
         "description": "Makima from Chainsaw Man (300 Epochs)",
         "credit": "andpproximately"
     },
@@ -289,7 +289,7 @@
     {
         "name": "Kurumi Shiratori",
         "url": "https://huggingface.co/HarunaKasuga/YoshikoTsushima/resolve/main/KurumiShiratori.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b207329-MJPxW3wSljkW.jpg",
+        "image": "",
         "description": "Kurumi Shiratori from D4DJ (500 Epochs)",
         "credit": "seakrait"
     },
@@ -303,7 +303,7 @@
     {
         "name": "Black Panther",
         "url": "https://huggingface.co/TJKAI/BlackPannther/resolve/main/BlackPanther.zip",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Chadwick_Boseman_by_Gage_Skidmore.jpg?width=300",
+        "image": "",
         "description": "Black Panther (Chadwick Boseman) (300 Epochs)",
         "credit": "tjkcreative"
     },
@@ -317,7 +317,7 @@
     {
         "name": "Houshou Marine",
         "url": "https://pixeldrain.com/u/L1YLfZyU",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b169489-PQ0lLCD2BoKG.jpg",
+        "image": "",
         "description": "Houshou Marine from Hololive JP",
         "credit": "dacoolkid44 & hijack"
     },
@@ -345,14 +345,14 @@
     {
         "name": "Ado",
         "url": "https://huggingface.co/pjesek/AdoRVCv2/resolve/main/AdoRVCv2.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b127212-FVm2tD0erQ5B.jpg",
+        "image": "",
         "description": "Talented JP artist (500 epochs)",
         "credit": "pjesek"
     },
     {
         "name": "LiSA",
         "url": "https://huggingface.co/phant0m4r/LiSA/resolve/main/LiSA.zip",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/LiSA_October_2014.jpg?width=300",
+        "image": "",
         "description": "Talented JP artist (400 epochs)",
         "credit": "Phant0m"
     },
