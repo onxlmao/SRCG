@@ -204,9 +204,9 @@ def get_model_image_path(model_name):
 def on_gallery_select(event: gr.SelectData):
     """When a gallery image is clicked, update the dropdown + preview."""
     idx = event.index
-    if idx is None or idx < 0 or idx >= len(json_voice_models):
+    if idx is None or idx < 0 or idx >= len(gallery_models):
         return gr.update(), gr.update(), gr.update()
-    model_name = json_voice_models[idx]['name']
+    model_name = gallery_models[idx]['name']
     image_url = get_model_image_path(model_name)
     info_text = on_json_model_select(model_name)
     return gr.update(value=model_name), info_text[0], info_text[1]
@@ -298,6 +298,7 @@ if __name__ == '__main__':
     os.makedirs(local_images_dir, exist_ok=True)
 
     gallery_value = []
+    gallery_models = []  # parallel list: gallery index -> model dict (only models with images)
     for m in json_voice_models:
         img = m.get('image', '')
         image_src = None
@@ -323,6 +324,7 @@ if __name__ == '__main__':
 
         status = "✅" if os.path.exists(os.path.join(rvc_models_dir, m['name'])) else "⬇️"
         gallery_value.append((image_src, f"{status} {m['name']}"))
+        gallery_models.append(m)
 
     with gr.Blocks(title='AICoverGenWebUI') as app:
 
