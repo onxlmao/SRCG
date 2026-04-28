@@ -9,7 +9,7 @@ from io import StringIO
 
 import gradio as gr
 
-from main import song_cover_pipeline
+from main import song_cover_pipeline, rvc_infer_pipeline
 import download_models as dl
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -350,6 +350,8 @@ if __name__ == '__main__':
                     with gr.Column():
                         pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change (Vocals ONLY)', info='Generally, use 1 for male to female conversions and -1 for vice-versa. (Octaves)')
                         pitch_all = gr.Slider(-12, 12, value=0, step=1, label='Overall Pitch Change', info='Changes pitch/key of vocals and instrumentals together. Altering this slightly reduces sound quality. (Semitones)')
+                    with gr.Column():
+                        cover_output_name = gr.Text(label='Output Name (optional)', info='Custom filename for the output. Leave empty for auto-generated name.')
                     show_file_upload_button.click(swap_visibility, outputs=[file_upload_col, yt_link_col, song_input, local_file])
                     show_yt_link_button.click(swap_visibility, outputs=[yt_link_col, file_upload_col, song_input, local_file])
 
@@ -383,7 +385,7 @@ if __name__ == '__main__':
                 output_format = gr.Dropdown(['mp3', 'wav'], value='mp3', label='Output file type', info='mp3: small file size, decent quality. wav: Large file size, best quality')
 
             with gr.Row():
-                clear_btn = gr.ClearButton(value='Clear', components=[song_input, rvc_model, keep_files, local_file])
+                clear_btn = gr.ClearButton(value='Clear', components=[song_input, rvc_model, keep_files, local_file, cover_output_name])
                 generate_btn = gr.Button("Generate", variant='primary')
                 ai_cover = gr.Audio(label='AI Cover', show_share_button=False)
 
@@ -393,12 +395,81 @@ if __name__ == '__main__':
                                inputs=[song_input, rvc_model, pitch, keep_files, is_webui, main_gain, backup_gain,
                                        inst_gain, index_rate, filter_radius, rms_mix_rate, f0_method, crepe_hop_length,
                                        protect, pitch_all, reverb_rm_size, reverb_wet, reverb_dry, reverb_damping,
-                                       output_format],
+                                       output_format, cover_output_name],
                                outputs=[ai_cover])
-            clear_btn.click(lambda: [0, 0, 0, 0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0, 0.15, 0.2, 0.8, 0.7, 'mp3', None],
+            clear_btn.click(lambda: [0, 0, 0, 0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0, 0.15, 0.2, 0.8, 0.7, 'mp3', '', None],
                             outputs=[pitch, main_gain, backup_gain, inst_gain, index_rate, filter_radius, rms_mix_rate,
                                      protect, f0_method, crepe_hop_length, pitch_all, reverb_rm_size, reverb_wet,
-                                     reverb_dry, reverb_damping, output_format, ai_cover])
+                                     reverb_dry, reverb_damping, output_format, cover_output_name, ai_cover])
+
+        # RVC Inference tab (no MDX separation)
+        with gr.Tab('RVC Inference'):
+            gr.Markdown('## Voice Conversion Only (No Audio Separation)')
+            gr.Markdown('Upload an audio file (e.g. isolated vocals) and apply RVC voice conversion directly. Use this when you already have separated vocals or want to convert any audio without going through the full MDX separation pipeline.')
+
+            with gr.Accordion('Main Options'):
+                with gr.Row():
+                    with gr.Column():
+                        rvc_infer_model = gr.Dropdown(voice_models, label='Voice Models', info='Select a voice model for conversion')
+                        rvc_infer_ref_btn = gr.Button('Refresh Models', variant='primary')
+
+                    with gr.Column():
+                        rvc_infer_input = gr.Text(label='Audio input', info='Full path to a local audio file. Or click the button below to upload.')
+                        rvc_infer_upload = gr.UploadButton('Upload Audio', file_types=['audio'], variant='primary')
+                        rvc_infer_upload.upload(process_file_upload, inputs=[rvc_infer_upload], outputs=[rvc_infer_input, rvc_infer_upload])
+
+                    with gr.Column():
+                        rvc_infer_pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change', info='Generally, use 1 for male to female conversions and -1 for vice-versa. (Octaves)')
+
+                    with gr.Column():
+                        rvc_infer_output_name = gr.Text(label='Output Name (optional)', info='Custom filename for the output. Leave empty for auto-generated name.')
+
+            with gr.Accordion('Voice conversion options', open=False):
+                with gr.Row():
+                    rvc_infer_index_rate = gr.Slider(0, 1, value=0.5, label='Index Rate', info="Controls how much of the AI voice's accent to keep in the vocals")
+                    rvc_infer_filter_radius = gr.Slider(0, 7, value=3, step=1, label='Filter radius', info='If >=3: apply median filtering to the harvested pitch results. Can reduce breathiness')
+                    rvc_infer_rms_mix_rate = gr.Slider(0, 1, value=0.25, label='RMS mix rate', info="Control how much to mimic the original vocal's loudness (0) or a fixed loudness (1)")
+                    rvc_infer_protect = gr.Slider(0, 0.5, value=0.33, label='Protect rate', info='Protect voiceless consonants and breath sounds. Set to 0.5 to disable.')
+                    with gr.Column():
+                        rvc_infer_f0_method = gr.Dropdown(['rmvpe', 'mangio-crepe'], value='rmvpe', label='Pitch detection algorithm', info='Best option is rmvpe (clarity in vocals), then mangio-crepe (smoother vocals)')
+                        rvc_infer_crepe_hop_length = gr.Slider(32, 320, value=128, step=1, visible=False, label='Crepe hop length', info='Lower values leads to longer conversions and higher risk of voice cracks, but better pitch accuracy.')
+                        rvc_infer_f0_method.change(show_hop_slider, inputs=rvc_infer_f0_method, outputs=rvc_infer_crepe_hop_length)
+                rvc_infer_keep_files = gr.Checkbox(label='Keep intermediate files', info='Keep all intermediate audio files generated. Leave unchecked to save space')
+
+            with gr.Accordion('Audio effects', open=False):
+                gr.Markdown('### Reverb Control')
+                with gr.Row():
+                    rvc_infer_reverb_rm_size = gr.Slider(0, 1, value=0.15, label='Room size', info='The larger the room, the longer the reverb time')
+                    rvc_infer_reverb_wet = gr.Slider(0, 1, value=0.2, label='Wetness level', info='Level of AI vocals with reverb')
+                    rvc_infer_reverb_dry = gr.Slider(0, 1, value=0.8, label='Dryness level', info='Level of AI vocals without reverb')
+                    rvc_infer_reverb_damping = gr.Slider(0, 1, value=0.7, label='Damping level', info='Absorption of high frequencies in the reverb')
+
+                gr.Markdown('### Audio Output Format')
+                rvc_infer_output_format = gr.Dropdown(['mp3', 'wav'], value='mp3', label='Output file type', info='mp3: small file size, decent quality. wav: Large file size, best quality')
+
+            with gr.Row():
+                rvc_infer_clear_btn = gr.ClearButton(value='Clear', components=[rvc_infer_input, rvc_infer_model, rvc_infer_keep_files, rvc_infer_output_name])
+                rvc_infer_btn = gr.Button('Convert', variant='primary')
+                rvc_infer_output = gr.Audio(label='RVC Output', show_share_button=False)
+
+            rvc_infer_ref_btn.click(update_models_list, None, outputs=rvc_infer_model)
+            rvc_infer_is_webui = gr.Number(value=1, visible=False)
+            rvc_infer_btn.click(
+                rvc_infer_pipeline,
+                inputs=[rvc_infer_input, rvc_infer_model, rvc_infer_pitch, rvc_infer_keep_files,
+                        rvc_infer_is_webui, rvc_infer_index_rate, rvc_infer_filter_radius,
+                        rvc_infer_rms_mix_rate, rvc_infer_f0_method, rvc_infer_crepe_hop_length,
+                        rvc_infer_protect, rvc_infer_reverb_rm_size, rvc_infer_reverb_wet,
+                        rvc_infer_reverb_dry, rvc_infer_reverb_damping, rvc_infer_output_format,
+                        rvc_infer_output_name],
+                outputs=[rvc_infer_output]
+            )
+            rvc_infer_clear_btn.click(lambda: [0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0.15, 0.2, 0.8, 0.7, 'mp3', '', None],
+                                      outputs=[rvc_infer_pitch, rvc_infer_index_rate, rvc_infer_filter_radius,
+                                               rvc_infer_rms_mix_rate, rvc_infer_protect, rvc_infer_f0_method,
+                                               rvc_infer_crepe_hop_length, rvc_infer_reverb_rm_size, rvc_infer_reverb_wet,
+                                               rvc_infer_reverb_dry, rvc_infer_reverb_damping, rvc_infer_output_format,
+                                               rvc_infer_output_name, rvc_infer_output])
 
         # Download tab
         with gr.Tab('Download model'):

@@ -267,10 +267,87 @@ def combine_audio(audio_paths, output_path, main_gain, backup_gain, inst_gain, o
     main_vocal_audio.overlay(backup_vocal_audio).overlay(instrumental_audio).export(output_path, format=output_format)
 
 
+def _safe_output_name(raw_name):
+    """Sanitize a user-provided output name to be filesystem-safe."""
+    import re
+    if not raw_name or not raw_name.strip():
+        return None
+    name = raw_name.strip()
+    name = re.sub(r'[<>:"/\\|?*]', '', name)
+    name = name.strip('. ')
+    return name if name else None
+
+
+def rvc_infer_pipeline(song_input, voice_model, pitch_change, keep_files,
+                        is_webui=0, index_rate=0.5, filter_radius=3,
+                        rms_mix_rate=0.25, f0_method='rmvpe', crepe_hop_length=128, protect=0.33,
+                        reverb_rm_size=0.15, reverb_wet=0.2, reverb_dry=0.8, reverb_damping=0.7,
+                        output_format='mp3', output_name='',
+                        progress=gr.Progress()):
+    """
+    RVC voice conversion only (no MDX separation).
+    Takes an input audio file, applies RVC voice conversion, audio effects, and saves.
+    Useful when you already have isolated vocals or any audio you want to voice-convert.
+    """
+    try:
+        if not song_input or not voice_model:
+            raise_exception('Ensure that the audio input field and voice model field are filled.', is_webui)
+
+        display_progress('[~] Starting RVC Inference Pipeline...', 0, is_webui, progress)
+
+        # Resolve input path
+        song_input = song_input.strip('"')
+        if not os.path.exists(song_input):
+            raise_exception(f'Input file {song_input} does not exist.', is_webui)
+
+        # Create output directory
+        song_id = get_hash(song_input)
+        song_dir = os.path.join(output_dir, song_id)
+        if not os.path.exists(song_dir):
+            os.makedirs(song_dir)
+
+        # Prepare paths
+        orig_song_path = convert_to_stereo(song_input)
+        base_name = os.path.splitext(os.path.basename(orig_song_path))[0]
+
+        ai_vocals_path = os.path.join(song_dir, f'{base_name}_{voice_model}_p{pitch_change}_i{index_rate}_fr{filter_radius}_rms{rms_mix_rate}_pro{protect}_{f0_method}{"" if f0_method != "mangio-crepe" else f"_{crepe_hop_length}"}.wav')
+
+        safe_name = _safe_output_name(output_name)
+        if safe_name:
+            final_output_path = os.path.join(song_dir, f'{safe_name}.{output_format}')
+        else:
+            final_output_path = os.path.join(song_dir, f'{base_name} ({voice_model} Ver).{output_format}')
+
+        if not os.path.exists(ai_vocals_path):
+            display_progress('[~] Converting voice using RVC...', 0.4, is_webui, progress)
+            voice_change(voice_model, orig_song_path, ai_vocals_path, pitch_change, f0_method, index_rate, filter_radius, rms_mix_rate, protect, crepe_hop_length, is_webui)
+
+        display_progress('[~] Applying audio effects...', 0.7, is_webui, progress)
+        ai_vocals_mixed_path = add_audio_effects(ai_vocals_path, reverb_rm_size, reverb_wet, reverb_dry, reverb_damping)
+
+        display_progress('[~] Converting to output format...', 0.9, is_webui, progress)
+        audio_segment = AudioSegment.from_wav(ai_vocals_mixed_path)
+        audio_segment.export(final_output_path, format=output_format)
+
+        if not keep_files:
+            display_progress('[~] Removing intermediate audio files...', 0.95, is_webui, progress)
+            intermediate_files = [ai_vocals_mixed_path]
+            # Don't remove orig_song_path if it was a user-provided local file
+            for file in intermediate_files:
+                if file and os.path.exists(file):
+                    os.remove(file)
+
+        return final_output_path
+
+    except Exception as e:
+        raise_exception(str(e), is_webui)
+
+
 def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
                         is_webui=0, main_gain=0, backup_gain=0, inst_gain=0, index_rate=0.5, filter_radius=3,
                         rms_mix_rate=0.25, f0_method='rmvpe', crepe_hop_length=128, protect=0.33, pitch_change_all=0,
                         reverb_rm_size=0.15, reverb_wet=0.2, reverb_dry=0.8, reverb_damping=0.7, output_format='mp3',
+                        output_name='',
                         progress=gr.Progress()):
     try:
         if not song_input or not voice_model:
@@ -318,7 +395,11 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
 
         pitch_change = pitch_change * 12 + pitch_change_all
         ai_vocals_path = os.path.join(song_dir, f'{os.path.splitext(os.path.basename(orig_song_path))[0]}_{voice_model}_p{pitch_change}_i{index_rate}_fr{filter_radius}_rms{rms_mix_rate}_pro{protect}_{f0_method}{"" if f0_method != "mangio-crepe" else f"_{crepe_hop_length}"}.wav')
-        ai_cover_path = os.path.join(song_dir, f'{os.path.splitext(os.path.basename(orig_song_path))[0]} ({voice_model} Ver).{output_format}')
+        safe_name = _safe_output_name(output_name)
+        if safe_name:
+            ai_cover_path = os.path.join(song_dir, f'{safe_name}.{output_format}')
+        else:
+            ai_cover_path = os.path.join(song_dir, f'{os.path.splitext(os.path.basename(orig_song_path))[0]} ({voice_model} Ver).{output_format}')
 
         if not os.path.exists(ai_vocals_path):
             display_progress('[~] Converting voice using RVC...', 0.5, is_webui, progress)
@@ -371,6 +452,7 @@ if __name__ == '__main__':
     parser.add_argument('-rdry', '--reverb-dryness', type=float, default=0.8, help='Reverb dry level between 0 and 1')
     parser.add_argument('-rdamp', '--reverb-damping', type=float, default=0.7, help='Reverb damping between 0 and 1')
     parser.add_argument('-oformat', '--output-format', type=str, default='mp3', help='Output format of audio file. mp3 for smaller file size, wav for best quality')
+    parser.add_argument('-oname', '--output-name', type=str, default='', help='Custom output filename (without extension). If not set, auto-generated name is used.')
     args = parser.parse_args()
 
     rvc_dirname = args.rvc_dirname
@@ -385,5 +467,6 @@ if __name__ == '__main__':
                                      pitch_change_all=args.pitch_change_all,
                                      reverb_rm_size=args.reverb_size, reverb_wet=args.reverb_wetness,
                                      reverb_dry=args.reverb_dryness, reverb_damping=args.reverb_damping,
-                                     output_format=args.output_format)
+                                     output_format=args.output_format,
+                                     output_name=args.output_name)
     print(f'[+] Cover generated at {cover_path}')
