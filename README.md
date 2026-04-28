@@ -1,5 +1,7 @@
 # SRCG (Simple RVC Gen)
 
+> **Work in Progress** — Active development, features and breaking changes may occur.
+
 A simple and powerful pipeline to create AI voice covers with any RVC v2 trained voice model. Supports YouTube videos, local audio files, direct RVC inference, organized UVR separation output, and a curated model gallery with 55+ voice models.
 
 Showcase: https://www.youtube.com/watch?v=2qZuE4WM7CM
@@ -8,13 +10,12 @@ Setup Guide: https://www.youtube.com/watch?v=pdlhk4vVHQk
 
 ![](images/webui_generate.png?raw=true)
 
-WebUI is under constant development and testing, but you can try it out right now on both local and colab!
+WebUI is under constant development and testing.
 
 ## Table of Contents
 
 - [Changelog](#changelog)
 - [Update SRCG to latest version](#update-srcg-to-latest-version)
-- [Colab notebook](#colab-notebook)
 - [Setup](#setup)
     - [Install Git and Python](#install-git-and-python)
     - [Install ffmpeg and sox](#install-ffmpeg)
@@ -78,21 +79,6 @@ pip install -r requirements.txt
 git pull
 ```
 
-For colab users, simply click `Runtime` in the top navigation bar of the colab notebook and `Disconnect and delete runtime` in the dropdown menu.
-Then follow the instructions in the notebook to run the webui.
-
-## Colab notebook
-
-For those without a powerful enough NVIDIA GPU, you may try SRCG out using Google Colab.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/onxlmao/SRCG/blob/main/AICoverGen_colab.ipynb)
-
-For those who face issues with Google Colab notebook disconnecting after a few minutes, here's an alternative that doesn't use the WebUI.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ardha27/AICoverGen-NoUI-Colab/blob/main/CoverGen_No_UI.ipynb)
-
-For those who want to run this locally, follow the setup guide below.
-
 ## Setup
 
 ### Install Git and Python
@@ -148,7 +134,7 @@ python src/webui.py
 | Flag                                       | Description |
 |--------------------------------------------|-------------|
 | `-h`, `--help`                             | Show this help message and exit. |
-| `--share`                                  | Create a public URL. This is useful for running the web UI on Google Colab. |
+| `--share`                                  | Create a public URL.
 | `--listen`                                 | Make the web UI reachable from your local network. |
 | `--listen-host LISTEN_HOST`                | The hostname that the server will use. |
 | `--listen-port LISTEN_PORT`                | The listening port that the server will use. |
