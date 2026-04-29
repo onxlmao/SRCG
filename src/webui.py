@@ -63,7 +63,7 @@ def extract_zip(extraction_folder, zip_name):
                 model_filepath = os.path.join(root, name)
 
     if not model_filepath:
-        raise gr.Error(f'No .pth model file was found in the extracted zip. Please check {extraction_folder}.')
+        raise ValueError(f'No .pth model file was found in the extracted zip. Please check {extraction_folder}.')
 
     # move model and index file to extraction folder
     os.rename(model_filepath, os.path.join(extraction_folder, os.path.basename(model_filepath)))
@@ -82,7 +82,7 @@ def download_online_model(url, dir_name, progress=gr.Progress()):
         zip_name = url.split('/')[-1]
         extraction_folder = os.path.join(rvc_models_dir, dir_name)
         if os.path.exists(extraction_folder):
-            raise gr.Error(f'Voice model directory {dir_name} already exists! Choose a different name for your voice model.')
+            return f'[!] Voice model directory {dir_name} already exists! Choose a different name.'
 
         if 'pixeldrain.com' in url:
             url = f'https://pixeldrain.com/api/file/{zip_name}'
@@ -94,14 +94,14 @@ def download_online_model(url, dir_name, progress=gr.Progress()):
         return f'[+] {dir_name} Model successfully downloaded!'
 
     except Exception as e:
-        raise gr.Error(str(e))
+        return f'[!] Error: {e}'
 
 
 def upload_local_model(zip_path, dir_name, progress=gr.Progress()):
     try:
         extraction_folder = os.path.join(rvc_models_dir, dir_name)
         if os.path.exists(extraction_folder):
-            raise gr.Error(f'Voice model directory {dir_name} already exists! Choose a different name for your voice model.')
+            return f'[!] Voice model directory {dir_name} already exists! Choose a different name.'
 
         zip_name = zip_path.name
         progress(0.5, desc='[~] Extracting zip...')
@@ -109,7 +109,7 @@ def upload_local_model(zip_path, dir_name, progress=gr.Progress()):
         return f'[+] {dir_name} Model successfully uploaded!'
 
     except Exception as e:
-        raise gr.Error(str(e))
+        return f'[!] Error: {e}'
 
 
 def filter_models(tags, query):
@@ -252,16 +252,16 @@ def download_json_voice_model(model_name, progress=gr.Progress()):
         )
         return result, gr.Image.update(value=image_url), gr.Markdown.update(value=info_text)
     except Exception as e:
-        raise gr.Error(str(e))
+        return f'[!] Error: {e}', gr.Image.update(), gr.Markdown.update()
 
 
 def download_all_required_models(progress=gr.Progress()):
     """Download hubert, rmvpe, and MDX-Net models from models_manifest.json."""
     try:
         ok = dl.download_required()
-        return '[+] All required models downloaded!' if ok else '[ERROR] Some downloads failed. Check console.'
+        return '[+] All required models downloaded!' if ok else '[!] Some downloads failed. Check console.'
     except Exception as e:
-        raise gr.Error(str(e))
+        return f'[!] Error: {e}'
 
 
 def check_model_status():
@@ -273,7 +273,7 @@ def check_model_status():
         sys.stdout = old_stdout
         return buf.getvalue()
     except Exception as e:
-        raise gr.Error(str(e))
+        return f'[!] Error: {e}'
 
 
 if __name__ == '__main__':
