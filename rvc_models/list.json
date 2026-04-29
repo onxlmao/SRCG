@@ -440,102 +440,12 @@
         "description": "Silver the Hedgehog - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
-    {
-        "name": "Metal Sonic",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Metal%20Sonic%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/17655.jpg",
-        "description": "Metal Sonic - from Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Cream The Rabbit",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Cream%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14739.jpg",
-        "description": "Cream the Rabbit -  Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Dr. Eggman",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Dr.%20Eggman%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6672-mfpc0HEGdLBz.jpg",
-        "description": "Doctor Eggman - from Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Espio The Chamelon",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Espio%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14763.jpg",
-        "description": "Espio the Chameleon -  Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Vector The Crocodile",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Vector%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14764.jpg",
-        "description": "Vector the Crocodile -  Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Charmy Bee",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Charmy%20(Sage).zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14762.jpg",
-        "description": "Charmy Bee -  Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
+
     {
         "name": "Big The Cat",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/BigTheCatAdventure.zip",
+        "url": "https://huggingface.co/thedoodooman/experimentalrvcmodels/resolve/main/BigTheCat_TitanRemake.zip?download=true",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14760.jpg",
-        "description": "Big the Cat from Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
+        "description": "Big the Cat from Sonic Heroes",
+        "credit": "thedoodoman"
     },
-    {
-        "name": "Bunnie Rabbot",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/BunnieRabbot.zip",
-        "image": "",
-        "description": "Bunnie Rabbot from Sonic (SatAM)",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Antoine",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Antoine.zip",
-        "image": "",
-        "description": "Antoine D'Coolette from Sonic (SatAM)",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Caliburn",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Caliburn.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b389069-sTHy0Tb5cGSb.png",
-        "description": "Caliburn the Sword from Sonic and the Black Knight",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Black Doom",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Black%20Doom.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/b355457-YMdz1dTrfvUI.png",
-        "description": "Black Doom from Sonic the Hedgehog",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Biolizard",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Biolizard.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14759.jpg",
-        "description": "Biolizard from Sonic Adventure 2",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Bokkun",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Bokkun.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14755.jpg",
-        "description": "Bokkun from Sonic X",
-        "credit": "Zeal-anton-ski"
-    },
-    {
-        "name": "Bocoe",
-        "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Bocoe.zip",
-        "image": "https://s4.anilist.co/file/anilistcdn/character/large/14745.jpg",
-        "description": "Bocoe from Sonic X",
-        "credit": "Zeal-anton-ski"
-    }
 ]
