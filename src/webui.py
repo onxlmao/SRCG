@@ -5,6 +5,7 @@ import sys
 import urllib.request
 import zipfile
 from argparse import ArgumentParser
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from io import StringIO
 
 import gradio as gr
@@ -297,6 +298,24 @@ if __name__ == '__main__':
     local_images_dir = os.path.join(BASE_DIR, 'images', 'models')
     os.makedirs(local_images_dir, exist_ok=True)
 
+    # --- pre-download missing images in parallel (fast) ---
+    download_jobs = []
+    for m in json_voice_models:
+        img = m.get('image', '')
+        if img and img.startswith('http'):
+            local_path = os.path.join(local_images_dir, f"{m['name']}.jpg")
+            if not os.path.exists(local_path):
+                download_jobs.append((img, local_path))
+
+    if download_jobs:
+        def _dl_job(url, dest):
+            _download_image(url, dest)
+            return dest
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            list(pool.map(lambda j: _dl_job(*j), download_jobs))
+
+    # --- build gallery from cached images ---
     gallery_value = []
     gallery_models = []  # parallel list: gallery index -> model dict (only models with images)
     for m in json_voice_models:
@@ -304,20 +323,17 @@ if __name__ == '__main__':
         image_src = None
 
         if img and img.startswith('http'):
-            # Download remote images locally to avoid hotlink protection issues
             local_path = os.path.join(local_images_dir, f"{m['name']}.jpg")
-            if not os.path.exists(local_path):
-                if _download_image(img, local_path):
-                    pass  # downloaded OK
-                elif os.path.exists(default_img):
-                    local_path = default_img
-                else:
-                    continue  # skip if no image available
-            image_src = local_path
+            if os.path.exists(local_path):
+                image_src = local_path
+            elif os.path.exists(default_img):
+                image_src = default_img
+            else:
+                continue
         elif os.path.exists(default_img):
             image_src = default_img
         else:
-            continue  # skip models with no image
+            continue
 
         if image_src is None:
             continue
