@@ -83,7 +83,9 @@ git pull
 
 ### Install Git and Python
 
-Follow the instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to install Git on your computer. Also follow this [guide](https://realpython.com/installing-python/) to install Python **VERSION 3.9** if you haven't already. Using other versions of Python may result in dependency conflicts.
+Follow the instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to install Git on your computer. Also follow this [guide](https://realpython.com/installing-python/) to install Python **3.10 or lower** if you haven't already.
+
+> ⚠️ **Important:** You must use **Python 3.10 or lower** (3.9/3.10 recommended). Python 3.11+ is **not compatible** with Gradio 4.x due to dependency conflicts and will cause runtime errors.
 
 ### Install ffmpeg
 
