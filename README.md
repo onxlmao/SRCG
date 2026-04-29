@@ -48,7 +48,7 @@ WebUI is under constant development and testing.
 - **Skip-if-exists for audio separation** - Previously separated audio files are reused automatically, saving processing time
 - **Model status checking** - Verify which required and voice models are downloaded with a single click
 - **Image caching** - Model images are downloaded locally on first use to avoid hotlink protection issues
-- **Gradio 6.x compatibility** - Full support for latest Gradio version with proper `gr.update()` API
+- **Gradio 3.39 compatibility** - Full support for Gradio 3.x with component-specific update API
 
 ### Original Features
 
@@ -85,7 +85,7 @@ git pull
 
 Follow the instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to install Git on your computer. Also follow this [guide](https://realpython.com/installing-python/) to install Python **3.10 or lower** if you haven't already.
 
-> ⚠️ **Important:** You must use **Python 3.10 or lower** (3.9/3.10 recommended). Python 3.11+ is **not compatible** with Gradio 4.x due to dependency conflicts and will cause runtime errors.
+> ⚠️ **Important:** This app uses **Gradio 3.39** which requires **Python 3.10 or lower** (3.9/3.10 recommended). Python 3.11+ is not compatible.
 
 ### Install ffmpeg
 

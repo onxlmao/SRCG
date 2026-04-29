@@ -32,7 +32,7 @@ def get_current_models(models_dir):
 
 def update_models_list():
     models_l = get_current_models(rvc_models_dir)
-    return gr.update(choices=models_l)
+    return gr.Dropdown.update(choices=models_l)
 
 
 def load_public_models():
@@ -43,7 +43,7 @@ def load_public_models():
             models_table.append(model)
 
     tags = list(public_models['tags'].keys())
-    return gr.update(value=models_table), gr.update(choices=tags)
+    return gr.Dataframe.update(value=models_table), gr.CheckboxGroup.update(choices=tags)
 
 
 def extract_zip(extraction_folder, zip_name):
@@ -140,28 +140,28 @@ def filter_models(tags, query):
             if query.lower() in model_attributes:
                 models_table.append([model['name'], model['description'], model['credit'], model['url'], model['tags']])
 
-    return gr.update(value=models_table)
+    return gr.Dataframe.update(value=models_table)
 
 
 def pub_dl_autofill(pub_models, event: gr.SelectData):
     if event.index is None:
-        return gr.update(), gr.update()
-    return gr.update(value=pub_models.loc[event.index[0], 'URL']), gr.update(value=pub_models.loc[event.index[0], 'Model Name'])
+        return gr.Text.update(), gr.Text.update()
+    return gr.Text.update(value=pub_models.loc[event.index[0], 'URL']), gr.Text.update(value=pub_models.loc[event.index[0], 'Model Name'])
 
 
 def swap_visibility():
-    return gr.update(visible=True), gr.update(visible=False), gr.update(value=''), gr.update(value=None)
+    return gr.Column.update(visible=True), gr.Column.update(visible=False), gr.Text.update(value=''), gr.File.update(value=None)
 
 
 def process_file_upload(file):
-    return file.name, gr.update(value=file.name)
+    return file.name, gr.Text.update(value=file.name)
 
 
 def show_hop_slider(pitch_detection_algo):
     if pitch_detection_algo == 'mangio-crepe':
-        return gr.update(visible=True)
+        return gr.Slider.update(visible=True)
     else:
-        return gr.update(visible=False)
+        return gr.Slider.update(visible=False)
 
 
 # ── JSON Index tab helpers ────────────────────────────────────────────
@@ -205,18 +205,18 @@ def on_gallery_select(event: gr.SelectData):
     """When a gallery image is clicked, update the dropdown + preview."""
     idx = event.index
     if idx is None or idx < 0 or idx >= len(gallery_models):
-        return gr.update(), gr.update(), gr.update()
+        return gr.Dropdown.update(), gr.Image.update(), gr.Markdown.update()
     model_name = gallery_models[idx]['name']
     image_url = get_model_image_path(model_name)
     info_text = on_json_model_select(model_name)
-    return gr.update(value=model_name), info_text[0], info_text[1]
+    return gr.Dropdown.update(value=model_name), info_text[0], info_text[1]
 
 
 def on_json_model_select(model_name):
     """When a model is selected, update image + info."""
     model = dl.get_voice_model(model_name)
     if not model:
-        return gr.update(value=None), gr.update(value="Select a model...")
+        return gr.Image.update(value=None), gr.Markdown.update(value="Select a model...")
 
     image_url = get_model_image_path(model_name)
     info_text = (
@@ -231,7 +231,7 @@ def on_json_model_select(model_name):
     else:
         info_text += "\n\n⬇️ Click **Download** to install"
 
-    return gr.update(value=image_url), gr.update(value=info_text)
+    return gr.Image.update(value=image_url), gr.Markdown.update(value=info_text)
 
 
 def download_json_voice_model(model_name, progress=gr.Progress()):
@@ -241,7 +241,7 @@ def download_json_voice_model(model_name, progress=gr.Progress()):
         # Refresh info after download
         model = dl.get_voice_model(model_name)
         if not model:
-            return result, gr.update(), gr.update()
+            return result, gr.Image.update(), gr.Markdown.update()
         image_url = get_model_image_path(model_name)
         info_text = (
             f"**{model['name']}**\n\n"
@@ -249,7 +249,7 @@ def download_json_voice_model(model_name, progress=gr.Progress()):
             f"Credit: {model.get('credit', 'N/A')}\n\n"
             f"✅ **Downloaded!**\n\n{result}"
         )
-        return result, gr.update(value=image_url), gr.update(value=info_text)
+        return result, gr.Image.update(value=image_url), gr.Markdown.update(value=info_text)
     except Exception as e:
         raise gr.Error(str(e))
 
@@ -292,7 +292,7 @@ if __name__ == '__main__':
     json_voice_names = sorted([m['name'] for m in json_voice_models])
 
     # Build gallery of model images
-    # Gradio 6.x: Gallery value must be list of (image_path_or_url, caption) tuples
+    # Gradio 3.x: Gallery value is list of (image_path, caption) tuples
     default_img = os.path.join(BASE_DIR, 'images', 'default_model.png')
     local_images_dir = os.path.join(BASE_DIR, 'images', 'models')
     os.makedirs(local_images_dir, exist_ok=True)
@@ -485,12 +485,7 @@ if __name__ == '__main__':
                     value=gallery_value,
                     label="Model Gallery",
                     columns=6,
-                    rows=10,
-                    height='auto',
-                    object_fit='cover',
-                    allow_preview=False,
                     show_label=False,
-                    selected_index=None,
                 )
 
                 with gr.Row():
