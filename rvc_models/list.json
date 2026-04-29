@@ -385,10 +385,10 @@
         "credit": "argaxus"
     },
     {
-        "name": "Sonic (Sage)",
+        "name": "Sonic the Hedgehog",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Sonic%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b2882-i2rD5jJr1zlZ.png",
-        "description": "Sonic the Hedgehog - voice by Sage",
+        "description": "Sonic the Hedgehog - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
@@ -399,98 +399,98 @@
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Shadow (Sage)",
+        "name": "Shadow The Hedgehog",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Shadow%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6379-QHHZ9Ksx0ZGo.png",
-        "description": "Shadow the Hedgehog - voice by Sage",
+        "description": "Shadow the Hedgehog - from  Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Knuckles (Sage)",
+        "name": "Knuckles The Echidna",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Knuckles%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6378-xVv7UVBsk8r8.jpg",
-        "description": "Knuckles the Echidna - voice by Sage",
+        "description": "Knuckles the Echidna - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Tails (Sage)",
+        "name": "Miles 'Tails' Prower",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Tails%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6377-JMNcOGMs7sI2.jpg",
-        "description": "Miles Tails Prower - voice by Sage",
+        "description": "Miles Tails Prower - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Rouge (Sage)",
+        "name": "Rouge The Bat",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Rouge%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6380-yI9lAyTDZHsu.png",
-        "description": "Rouge the Bat - voice by Sage",
+        "description": "Rouge the Bat - From Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Blaze (Sage)",
+        "name": "Blaze The Cat",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Blaze%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b272158-gqeas8W2zAUI.png",
-        "description": "Blaze the Cat - voice by Sage",
+        "description": "Blaze the Cat - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Silver (Sage)",
+        "name": "Silver The Hedgehog",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Silver%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b24674-mlCzchkwUT7v.jpg",
-        "description": "Silver the Hedgehog - voice by Sage",
+        "description": "Silver the Hedgehog - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Metal Sonic (Sage)",
+        "name": "Metal Sonic",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Metal%20Sonic%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/17655.jpg",
-        "description": "Metal Sonic - voice by Sage",
+        "description": "Metal Sonic - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Cream (Sage)",
+        "name": "Cream The Rabbit",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Cream%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14739.jpg",
-        "description": "Cream the Rabbit - voice by Sage",
+        "description": "Cream the Rabbit -  Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Dr. Eggman (Sage)",
+        "name": "Dr. Eggman",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Dr.%20Eggman%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/b6672-mfpc0HEGdLBz.jpg",
-        "description": "Doctor Eggman - voice by Sage",
+        "description": "Doctor Eggman - from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Espio (Sage)",
+        "name": "Espio The Chamelon",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Espio%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14763.jpg",
-        "description": "Espio the Chameleon - voice by Sage",
+        "description": "Espio the Chameleon -  Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Vector (Sage)",
+        "name": "Vector The Crocodile",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Vector%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14764.jpg",
-        "description": "Vector the Crocodile - voice by Sage",
+        "description": "Vector the Crocodile -  Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "Charmy (Sage)",
+        "name": "Charmy Bee",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/Charmy%20(Sage).zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14762.jpg",
-        "description": "Charmy Bee - voice by Sage",
+        "description": "Charmy Bee -  Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "BigTheCatAdventure",
+        "name": "Big The Cat",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/BigTheCatAdventure.zip",
         "image": "https://s4.anilist.co/file/anilistcdn/character/large/14760.jpg",
         "description": "Big the Cat from Sonic the Hedgehog",
         "credit": "Zeal-anton-ski"
     },
     {
-        "name": "BunnieRabbot",
+        "name": "Bunnie Rabbot",
         "url": "https://huggingface.co/Zeal-anton-ski/Sage/resolve/main/BunnieRabbot.zip",
         "image": "",
         "description": "Bunnie Rabbot from Sonic (SatAM)",
