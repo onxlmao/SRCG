@@ -7,8 +7,6 @@ import zipfile
 from argparse import ArgumentParser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from io import StringIO
-import matplotlib
-matplotlib.use('Agg')  # 'Agg' is a non-interactive backend compatible with Colab
 
 import gradio as gr
 
